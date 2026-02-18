@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Système de tickets</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background-color: white;
+            width: 350px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3f6ea8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #355d8a;
+        }
+
+        .signup {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .signup a {
+            color: #3f6ea8;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h1>Système de tickets</h1>
+        <div class="subtitle">Connectez-vous pour continuer</div>
+
+        <form>
+            <label>Nom d'utilisateur</label>
+            <input type="text" placeholder="Entrez votre nom">
+
+            <label>Mot de passe</label>
+            <input type="password" placeholder="Entrez votre mot de passe">
+
+            <button type="submit">Se connecter</button>
+        </form>
+
+        <div class="signup">
+            Je n'ai pas de compte. <a href="#">Sign in</a>
+        </div>
+    </div>
+
+</body>
+</html>
