@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administraartion</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Systeme de tickets</div>
+        <nav class="menu">
+            <a href="tableaudebord.html">Tableau de bord</a>
+            <a href="nvticket.html">Nouveau Ticket</a>
+            <a href="faq">FAQ</a>
+            <a href="administration.html" class="active">Administration</a>
+            <a href="stat.html">Statistiques</a>
+        </nav>
+        <div class="profile">
+            <img src="https://i.pravatar.cc/45" class="avatar" id="avatar">
+            <div class="dropdown" id="dropdown">
+                <button>Déconnexion</button>
+            </div>
+        </div>
+    </header>
+    <section class="floating-stats">
+        <div class="f-card">
+            <p>Total</p>
+            <h2>7</h2>
+        </div>
+         <div class="f-card">
+            <p>En attente</p>
+            <h2>2</h2>
+        </div>
+         <div class="f-card">
+            <p>En cours</p>
+            <h2>4</h2>
+        </div>
+         <div class="f-card">
+            <p>Résolus</p>
+            <h2>1</h2>
+        </div>
+         <div class="f-card">
+            <p>Urgents</p>
+            <h2>1</h2>
+        </div>
+    </section>
+    <section class="table">
+        <div class="table-header">
+            <div><input type="checkbox" name="" id="">
+            <span>Titre</span></div>
+            <span>Status</span>
+            <span>Priorité</span>
+            <span>Créé par</span>
+            <span>Date</span>
+            <span>Catégorie</span>
+        </div>
+        <div class="row">
+            <div>
+                <input type="checkbox" name="" id="">
+                <strong>Probléme de connexion au compte #233</strong>
+                <p>Je ne peut pas se connecter..</p>
+            </div>
+            <span>En cours</span>
+            <div>
+            <span class="priorité mid"></span><span class="p-text">Moyenne</span></div>
+            <span>Ahmed</span>
+            <span>Il y a 2 jours</span>
+            <span>Authentification</span>
+        </div>
+        <div class="row">
+            <div>
+                <input type="checkbox" name="" id="">
+                <strong>Probléme d'accés réseau #232</strong>
+                <p>Je ne peut pas accéder au réseau..</p>
+            </div>
+            <span>En cours</span>
+            <div>
+            <span class="priorité high"></span><span class="p-text">Haute</span></div>
+            <span>Foued</span>
+            <span>Il y a 2 jours</span>
+            <span>Réseaux</span>
+        </div>
+        <div class="row">
+            <div>
+                <input type="checkbox" name="" id="">
+                <strong>Erreur 500 #231</strong>
+                <p>Erreur serveur apparaît..</p>
+            </div>
+            <span>En cours</span>
+            <div>
+            <span class="priorité urgent"></span><span class="p-text">urgent</span></div>
+            <span>Maram</span>
+            <span>01 Jan 26</span>
+            <span>Serveur</span>
+        </div>
+        <div class="row">
+            <div>
+                <input type="checkbox" name="" id="">
+                <strong>Mot de passe oublié - email non recu #230</strong>
+                <p>L'email de réinitialisation du..</p>
+            </div>
+            <span>En attente</span>
+            <div>
+            <span class="priorité high"></span><span class="p-text">Haute</span></div>
+            <span>Adam</span>
+            <span>29 Dec 25</span>
+            <span>Email/Notification</span>
+        </div>
+        <div class="row">
+            <div>
+                <input type="checkbox" name="" id="">
+                <strong>Impossible de télécharger un fichier #229</strong>
+                <p>le téléchargement reste blo..</p>
+            </div>
+            <span>Resolus</span>
+            <div>
+            <span class="priorité ok"></span><span class="p-text">OK</span></div>
+            <span>Ines</span>
+            <span>28 Dec 25</span>
+            <span>Upload-Download</span>
+        </div>
+        <div class="row">
+            <div>
+                <input type="checkbox" name="" id="">
+                <strong>Erreur de synchronisation des données #228</strong>
+                <p>Les données ne se mettent..</p>
+            </div>
+            <span>En cours</span>
+            <div>
+            <span class="priorité high"></span><span class="p-text">Haute</span></div>
+            <span>Sami</span>
+            <span>Il y a 1 jours</span>
+            <span>Base de données</span>
+        </div>
+    </section>
+    <script>
+const avatar = document.getElementById("avatar");
+const dropdown = document.getElementById("dropdown");
+
+avatar.addEventListener("click", function(e){
+  e.stopPropagation();
+  dropdown.classList.toggle("show");
+});
+
+document.addEventListener("click", function(){
+  dropdown.classList.remove("show");
+});
+</script>
+</body>
+</html>
