@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Administration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="display:none">
+    <nav class="navbar">
+        <a href="tab-de-bord.html" class="navbar-brand">Système de tickets</a>
+        <div class="navbar-menu">
+            <a href="tab-de-bord.html">Tableau de bord</a>
+            <a href="nv-ticket.html">Nouveau ticket</a>
+            <a href="faq.html">FAQ</a>
+            <a href="administration.html" class="active">Administration</a>
+            <a href="stats.html">Statistiques</a>
+        </div>
+        <div class="user-menu">
+            <button class="btn-logout" onclick="logout()">Déconnexion</button>
+        </div>
+    </nav>
+    <div class="admin-stats">
+        <div class="stat-card">Total<div id="tot-ticket" class="stats-cards">0</div></div>
+        <div class="stat-card">En attente<div id="en-attente" class="stats-cards">0</div></div>
+        <div class="stat-card">En cours<div id="en-cours" class="stats-cards">0</div></div>
+        <div class="stat-card">Résolus<div id="resolus" class="stats-cards">0</div></div>
+        <div class="stat-card">Urgents<div id="urgents" class="stats-cards">0</div></div>
+    </div>
+    <div class="container">
+        <div class="main-content">
+            <h1 class="card-title">Gestion des tickets</h1>
+            <div class="table-container">
+                <table class="table">
+                    <thead><tr><th>Titre</th><th>Statut</th><th>Priorité</th><th>Créé par</th><th>Date</th><th>Catégorie</th><th>Assigné à</th><th>Action</th></tr></thead>
+                    <tbody id="tickets-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="assignment-modal" class="modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center">
+        <div class="card" style="width:90%;max-width:500px">
+            <div class="card-header">
+                <h2 class="card-title">Assigner le ticket</h2>
+            </div>
+            <div style="padding:2rem">
+                <div id="ticket-info" style="margin-bottom:1rem;padding:1rem;background:#f9fafb;border-radius:8px">
+                    <h3 id="modal-ticket-title"></h3>
+                    <p id="modal-ticket-desc" style="margin-top:0.5rem;color:var(--text-secondary)"></p>
+                </div>
+                <div class="form-group">
+                    <label>Technicien</label>
+                    <select id="technician-select" class="form-group" style="width:100%;padding:0.75rem"></select>
+                </div>
+                <div style="display:flex;gap:1rem;margin-top:2rem">
+                    <button id="assign-btn" class="btn btn-primary" style="flex:1">Assigner</button>
+                    <button id="cancel-assign-btn" class="btn btn-secondary" style="flex:1">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>checkAuth(['admin']);</script>
+</body>
+</html>

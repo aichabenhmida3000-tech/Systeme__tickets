@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistiques</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body style="display:none">
+    <nav class="navbar">
+        <a href="tab-de-bord.html" class="navbar-brand">Système de tickets</a>
+        <div class="navbar-menu">
+            <a href="tab-de-bord.html">Tableau de bord</a>
+            <a href="nv-ticket.html">Nouveau ticket</a>
+            <a href="faq.html">FAQ</a>
+            <a href="administration.html">Administration</a>
+            <a href="stats.html" class="active">Statistiques</a>
+        </div>
+        <div class="user-menu">
+            <button class="btn-logout" onclick="logout()">Déconnexion</button>
+        </div>
+    </nav>
+    <div class="admin-stats">
+        <div class="stat-card">Total<div id="stat-total" class="stats-cards">0</div></div>
+        <div class="stat-card">En attente<div id="stat-attente" class="stats-cards">0</div></div>
+        <div class="stat-card">En cours<div id="stat-cours" class="stats-cards">0</div></div>
+        <div class="stat-card">Résolus<div id="stat-resolus" class="stats-cards">0</div></div>
+        <div class="stat-card">Urgents<div id="stat-urgents" class="stats-cards">0</div></div>
+    </div>
+    <div class="container">
+        <div class="main-content">
+            <h1 class="card-title" style="margin-bottom:2rem">Tableau de bord analytique</h1>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-bottom:3rem">
+                <div class="card" style="padding:1.5rem;text-align:center;border-left:4px solid var(--primary-color)">
+                    <h3 style="color:var(--primary-color);font-size:2.5rem;margin-bottom:0.5rem" id="card-total">0</h3>
+                    <p style="color:var(--text-secondary);font-weight:600">Tickets totaux</p>
+                </div>
+                <div class="card" style="padding:1.5rem;text-align:center;border-left:4px solid #059669">
+                    <h3 style="color:#059669;font-size:2.5rem;margin-bottom:0.5rem" id="card-resolus">0</h3>
+                    <p style="color:var(--text-secondary);font-weight:600">Tickets résolus</p>
+                </div>
+                <div class="card" style="padding:1.5rem;text-align:center;border-left:4px solid #ea580c">
+                    <h3 style="color:#ea580c;font-size:2.5rem;margin-bottom:0.5rem" id="card-cours">0</h3>
+                    <p style="color:var(--text-secondary);font-weight:600">En cours de traitement</p>
+                </div>
+                <div class="card" style="padding:1.5rem;text-align:center;border-left:4px solid #dc2626">
+                    <h3 style="color:#dc2626;font-size:2.5rem;margin-bottom:0.5rem" id="card-urgents">0</h3>
+                    <p style="color:var(--text-secondary);font-weight:600">Tickets urgents</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>checkAuth(['admin']);</script>
+</body>
+</html>
