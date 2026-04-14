@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>FAQ</title>
+    <link rel="stylesheet" href="style.css?v=3">
+</head>
+<body style="display:none">
+    <nav class="navbar">
+        <a href="dashboard.html" class="navbar-brand">Système de tickets</a>
+        <div class="navbar-menu">
+            <a href="dashboard.html">Tableau de bord</a>
+            <a href="nv-ticket.html">Nouveau ticket</a>
+            <a href="faq.html" class="active">FAQ</a>
+            <a href="administration.html" class="admin-only" style="display:none">Administration</a>
+            <a href="stats.html" class="admin-only" style="display:none">Statistiques</a>
+        </div>
+        <div class="user-menu">
+            <button class="btn-logout" onclick="logout()" style="padding:0.5rem 1rem">Déconnexion</button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="main-content">
+            <h1 class="card-title text-center" style="margin-bottom:2rem">Foire Aux Questions</h1>
+            <div class="card" style="max-width:900px;margin:0 auto">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)"><span>Problème d'imprimante</span><span class="faq-toggle">+</span></div>
+                    <div class="faq-answer"><p>Vérifiez que l'imprimante est bien branchée et allumée. Vérifiez les pilotes et assurez-vous qu'elle est définie comme imprimante par défaut. Si le problème persiste, vérifiez le niveau d'encre ou de toner.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)"><span>Réinitialiser mon mot de passe</span><span class="faq-toggle">+</span></div>
+                    <div class="faq-answer"><p>Cliquez sur "Mot de passe oublié" sur la page de connexion. Entrez votre email et suivez les instructions envoyées. Vérifiez votre dossier spam si vous ne recevez pas l'email.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)"><span>Problème de connexion Wi-Fi</span><span class="faq-toggle">+</span></div>
+                    <div class="faq-answer"><p>Redémarrez votre routeur et votre ordinateur. Vérifiez que vous êtes connecté au bon réseau et que le mot de passe est correct. Essayez de vous rapprocher du routeur.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)"><span>Installation de logiciels</span><span class="faq-toggle">+</span></div>
+                    <div class="faq-answer"><p>Contactez l'administrateur pour obtenir les droits d'installation. Téléchargez uniquement depuis les sites officiels ou le portail d'entreprise. Ne installez jamais de logiciels non approuvés.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)"><span>Ordinateur trop lent</span><span class="faq-toggle">+</span></div>
+                    <div class="faq-answer"><p>Fermez les applications inutilisées. Vérifiez l'espace disque disponible (minimum 10% recommandé). Effectuez un redémarrage. Si le problème persiste, contactez le support.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)"><span>Erreur de connexion VPN</span><span class="faq-toggle">+</span></div>
+                    <div class="faq-answer"><p>Vérifiez votre connexion internet. Assurez-vous d'utiliser les bonnes identifiants VPN. Redémarrez l'application VPN. Si l'erreur persiste, créez un ticket avec le code d'erreur affiché.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)"><span>Sauvegarde des données</span><span class="faq-toggle">+</span></div>
+                    <div class="faq-answer"><p>Sauvegardez régulièrement vos fichiers importants sur le serveur réseau ou le cloud d'entreprise. Ne stockez pas de données sensibles sur votre disque local uniquement.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)"><span>Problème avec Outlook/Email</span><span class="faq-toggle">+</span></div>
+                    <div class="faq-answer"><p>Vérifiez votre connexion internet. Redémarrez Outlook. Vérifiez que votre boîte mail n'est pas pleine (limite: 2GB). Si les problèmes persistent, recréez le profil Outlook.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)"><span>Écran bleu (BSOD)</span><span class="faq-toggle">+</span></div>
+                    <div class="faq-answer"><p>Notez le code d'erreur affiché. Redémarrez l'ordinateur. Si le problème se répète, créez un ticket urgent avec le code d'erreur et la fréquence du problème.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)"><span>Périphérique USB non reconnu</span><span class="faq-toggle">+</span></div>
+                    <div class="faq-answer"><p>Essayez un autre port USB. Redémarrez l'ordinateur. Vérifiez sur un autre ordinateur si le problème vient du périphérique. Mettez à jour les pilotes USB.</p></div>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:3rem">
+                <h3 style="margin-bottom:0.5rem">Vous ne trouvez pas votre réponse ?</h3>
+                <p style="color:var(--text-secondary);margin-bottom:1.5rem">Notre équipe de support est disponible pour vous aider.</p>
+                <a href="nv-ticket.html" class="btn btn-primary">Créer un ticket</a>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>checkAuth(['admin','support','user']);</script>
+</body>
+</html>
