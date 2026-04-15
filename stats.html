@@ -19,8 +19,6 @@
             <button class="btn-logout" onclick="logout()">Déconnexion</button>
         </div>
     </nav>
-
-    <!-- Stat cards en haut -->
     <div class="admin-stats">
         <div class="stat-card">Total<div id="stat-total" class="stats-cards">0</div></div>
         <div class="stat-card">En attente<div id="stat-attente" class="stats-cards">0</div></div>
@@ -28,10 +26,8 @@
         <div class="stat-card">Résolus<div id="stat-resolus" class="stats-cards">0</div></div>
         <div class="stat-card">Urgents<div id="stat-urgents" class="stats-cards">0</div></div>
     </div>
-
     <div class="container">
         <div class="main-content">
-            <!-- Taux calculés -->
             <div class="rate-cards" style="margin-bottom:2rem">
                 <div class="rate-card">
                     <div class="rate-value" id="taux-resolution">0%</div>
@@ -46,17 +42,12 @@
                     <div class="rate-label">Tickets urgents</div>
                 </div>
             </div>
-
-            <!-- Graphiques -->
             <div class="charts-grid">
-
-                <!-- Graphique statut (donut) -->
                 <div class="chart-card">
                     <h3>Répartition par statut</h3>
                     <div class="donut-wrapper">
                         <svg class="donut-svg" viewBox="0 0 160 160" id="donut-svg">
                             <circle cx="80" cy="80" r="60" fill="none" stroke="#e5e7eb" stroke-width="22"/>
-                            <!-- Les segments seront ajoutés par JS -->
                             <text x="80" y="75" text-anchor="middle" class="progress-ring-text" id="donut-center-val">0</text>
                             <text x="80" y="92" text-anchor="middle" class="progress-ring-sub">TOTAL</text>
                         </svg>
@@ -67,8 +58,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Graphique priorité (barres) -->
                 <div class="chart-card">
                     <h3>Répartition par priorité</h3>
                     <div class="bar-chart-container" id="priority-bars">
@@ -90,19 +79,15 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Graphique catégorie (barres horizontales) -->
                 <div class="chart-card" style="grid-column: 1 / -1">
                     <h3>Tickets par catégorie</h3>
                     <div class="bar-chart-container" id="category-bars">
-                        <!-- généré dynamiquement -->
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
-
     <script src="script.js"></script>
     <script>checkAuth(['admin']);</script>
 </body>
