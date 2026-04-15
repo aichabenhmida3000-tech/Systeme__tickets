@@ -1,0 +1,156 @@
+#Diagramme de séquence : Création d'un ticket 
+@startuml
+actor Utilisateur
+participant "Frontend (HTML/JS)" as Front
+participant "API (api.php)" as API
+database "Database (MySQL)" as DB
+
+Utilisateur -> Front : Remplit formulaire
+Utilisateur -> Front : Clique "Créer"
+
+Front -> API : POST /create-ticket (data)
+
+activate API
+
+API -> API : Vérifier authentification
+alt Non authentifié
+    API --> Front : 401 Unauthorized
+    deactivate API
+else Authentifié
+    API -> API : Valider données
+
+    alt Données invalides
+        API --> Front : 400 Bad Request
+        deactivate API
+    else Données valides
+        API -> DB : INSERT INTO tickets
+        activate DB
+        DB --> API : Confirmation (ticket_id)
+        deactivate DB
+
+        API --> Front : {success: true, ticket_id}
+        deactivate API
+    end
+end
+
+Front -> Utilisateur : Redirection tableau de bord
+
+@enduml
+#Diagramme de séquence : Assignation d'un ticket 
+@startuml
+actor Administrateur
+participant "Frontend (HTML/JS)" as Front
+participant "API (api.php)" as API
+database "Database (MySQL)" as DB
+
+Administrateur -> Front : Clique "Assigner"
+
+Front -> API : GET /supports
+activate API
+
+API -> API : Vérifier auth + rôle=admin
+alt Non autorisé
+    API --> Front : 403 Forbidden
+    deactivate API
+else OK
+    API -> DB : SELECT * FROM users WHERE role='support'
+    activate DB
+    DB --> API : Liste supports
+    deactivate DB
+
+    API --> Front : Liste supports
+    deactivate API
+end
+
+Front -> Administrateur : Affiche liste
+
+Administrateur -> Front : Sélectionne technicien
+Administrateur -> Front : Confirme assignation
+
+Front -> API : POST /assign (ticket_id, support_id)
+activate API
+
+API -> API : Vérifier auth + rôle
+
+alt Non autorisé
+    API --> Front : 403 Forbidden
+    deactivate API
+else OK
+    API -> API : Valider ticket & support
+
+    alt Données invalides
+        API --> Front : 400 Bad Request
+        deactivate API
+    else OK
+        API -> DB : UPDATE tickets SET assigned_to, status
+        activate DB
+        DB --> API : Confirmation
+        deactivate DB
+
+        API --> Front : {success: true}
+        deactivate API
+    end
+end
+
+Front -> Administrateur : Rafraîchir liste tickets
+
+@enduml
+#Diagramme de séquence : Resolve ticket
+@startuml
+actor Support
+participant "Frontend (HTML/JS)" as Front
+participant "API (api.php)" as API
+database "Database (MySQL)" as DB
+
+Support -> Front : Clique "Voir ticket"
+
+Front -> API : GET /ticket/{id}
+activate API
+
+API -> API : Vérifier auth + rôle=support
+alt Non autorisé
+    API --> Front : 403 Forbidden
+    deactivate API
+else OK
+    API -> DB : SELECT * FROM tickets WHERE id
+    activate DB
+    DB --> API : Ticket data
+    deactivate DB
+
+    API --> Front : Ticket details
+    deactivate API
+end
+
+Front -> Support : Affiche modal
+
+Support -> Front : Clique "Marquer comme résolu"
+
+Front -> API : POST /update-status (ticket_id, status)
+activate API
+
+API -> API : Vérifier auth + rôle
+
+alt Non autorisé
+    API --> Front : 403 Forbidden
+    deactivate API
+else OK
+    API -> DB : Vérifier assignation ticket
+    DB --> API : assigned_to
+
+    alt Non assigné à ce support
+        API --> Front : 403 Forbidden
+        deactivate API
+    else OK
+        API -> DB : UPDATE tickets SET status='resolu' WHERE id
+        activate DB
+        DB --> API : Confirmation
+        deactivate DB
+
+        API --> Front : {success: true}
+        deactivate API
+    end
+end
+
+Front -> Support : Rafraîchir liste + fermer modal
+
+@enduml
