@@ -188,3 +188,149 @@ document.addEventListener('DOMContentLoaded', function(){
         document.querySelectorAll('.admin-only').forEach(function(l){ l.style.display = 'inline-block'; });
     loadTickets();
     loadDetailedStats();});
+/* ===== Stats page ===== */
+var catColors = ['#3769A6','#6594b1','#A2CB8B','#d97d55','#ea7b7b'];
+
+function drawDonut(attente, cours, resolus) {
+    var total = attente + cours + resolus;
+    if(total === 0) return;
+    var cx = 80, cy = 80, r = 60, sw = 22;
+    var circ = 2 * Math.PI * r;
+    var data = [
+        { val: attente, color: '#cbd5e1' },
+        { val: cours,   color: '#6594b1' },
+        { val: resolus, color: '#A2CB8B' }
+    ];
+    var svg = document.getElementById('donut-svg');
+    if(!svg) return;
+    var old = svg.querySelectorAll('.seg');
+    for(var i = 0; i < old.length; i++) old[i].remove();
+    var offset = 0;
+    for(var i = 0; i < data.length; i++) {
+        var pct = data[i].val / total;
+        var dash = pct * circ;
+        var gap  = circ - dash;
+        var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('class', 'seg');
+        circle.setAttribute('cx', cx);
+        circle.setAttribute('cy', cy);
+        circle.setAttribute('r', r);
+        circle.setAttribute('fill', 'none');
+        circle.setAttribute('stroke', data[i].color);
+        circle.setAttribute('stroke-width', sw);
+        circle.setAttribute('stroke-dasharray', dash + ' ' + gap);
+        circle.setAttribute('stroke-dashoffset', -offset * circ);
+        circle.setAttribute('transform', 'rotate(-90 80 80)');
+        svg.insertBefore(circle, svg.querySelector('text'));
+        offset += pct;
+    }
+    document.getElementById('donut-center-val').textContent = total;
+}
+
+function drawPriorityBars(s) {
+    var vals = {
+        urgente: parseInt(s.urgente)||0,
+        haute:   parseInt(s.haute)||0,
+        moyenne: parseInt(s.moyenne)||0,
+        ok:      parseInt(s.ok)||0
+    };
+    var max = Math.max(vals.urgente, vals.haute, vals.moyenne, vals.ok, 1);
+    var keys = ['urgente','haute','moyenne','ok'];
+    for(var i = 0; i < keys.length; i++) {
+        var k = keys[i];
+        var pct = (vals[k] / max) * 100;
+        var bar = document.getElementById('bar-' + k);
+        var valEl = document.getElementById('val-' + k);
+        if(bar) {
+            (function(b, p, v, el) {
+                setTimeout(function() {
+                    b.style.width = p + '%';
+                    el.textContent = v;
+                }, 200);
+            })(bar, pct, vals[k], valEl);
+        }
+    }
+}
+
+function drawCategoryBars(categories) {
+    var container = document.getElementById('category-bars');
+    if(!container) return;
+    container.innerHTML = '';
+    var keys = Object.keys(categories);
+    var max = 1;
+    for(var i = 0; i < keys.length; i++) {
+        if(parseInt(categories[keys[i]]) > max) max = parseInt(categories[keys[i]]);
+    }
+    for(var i = 0; i < keys.length; i++) {
+        var k = keys[i];
+        var v = parseInt(categories[k]) || 0;
+        var pct = (v / max) * 100;
+        var color = catColors[i % catColors.length];
+        var row = document.createElement('div');
+        row.className = 'bar-row';
+        row.innerHTML =
+            '<div class="bar-label">' + k + '</div>' +
+            '<div class="bar-track"><div class="bar-fill" style="width:0%;background:' + color + '" data-pct="' + pct + '">' +
+            '<span>' + v + '</span></div></div>';
+        container.appendChild(row);
+    }
+    setTimeout(function() {
+        var fills = container.querySelectorAll('.bar-fill');
+        for(var i = 0; i < fills.length; i++) {
+            fills[i].style.width = fills[i].getAttribute('data-pct') + '%';
+        }
+    }, 300);
+}
+
+function loadStats() {
+    var req = new XMLHttpRequest();
+    req.open('GET', 'api.php?action=stats', true);
+    req.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+            var s = JSON.parse(this.responseText);
+            var total = parseInt(s.total) || 0;
+
+            // Top stat cards
+            var ids = {
+                'stat-total': total,
+                'stat-attente': parseInt(s.en_attente)||0,
+                'stat-cours': parseInt(s.en_cours)||0,
+                'stat-resolus': parseInt(s.resolus)||0,
+                'stat-urgents': parseInt(s.urgents)||0
+            };
+            for(var id in ids) {
+                var el = document.getElementById(id);
+                if(el) el.innerHTML = ids[id];
+            }
+
+            // Donut legend
+            var legAttente = document.getElementById('leg-attente');
+            var legCours   = document.getElementById('leg-cours');
+            var legResolus = document.getElementById('leg-resolus');
+            if(legAttente) legAttente.textContent = parseInt(s.en_attente)||0;
+            if(legCours)   legCours.textContent   = parseInt(s.en_cours)||0;
+            if(legResolus) legResolus.textContent = parseInt(s.resolus)||0;
+
+            // Rate cards
+            var txRes  = total > 0 ? Math.round((parseInt(s.resolus)/total)*100) : 0;
+            var txCours= total > 0 ? Math.round((parseInt(s.en_cours)/total)*100) : 0;
+            var txUrg  = total > 0 ? Math.round((parseInt(s.urgents)/total)*100) : 0;
+            var tauxRes = document.getElementById('taux-resolution');
+            var tauxCours = document.getElementById('taux-cours');
+            var tauxUrgents = document.getElementById('taux-urgents');
+            if(tauxRes) tauxRes.textContent = txRes + '%';
+            if(tauxCours) tauxCours.textContent = txCours + '%';
+            if(tauxUrgents) tauxUrgents.textContent = txUrg + '%';
+
+            // Charts
+            drawDonut(parseInt(s.en_attente)||0, parseInt(s.en_cours)||0, parseInt(s.resolus)||0);
+            drawPriorityBars(s);
+            if(s.categories) drawCategoryBars(s.categories);
+        }
+    };
+    req.send();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    if(document.getElementById('donut-svg')) loadStats();
+});
