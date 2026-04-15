@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Statistiques</title>
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body style="display:none">
     <nav class="navbar">
@@ -19,6 +19,8 @@
             <button class="btn-logout" onclick="logout()">Déconnexion</button>
         </div>
     </nav>
+
+    <!-- Stat cards en haut -->
     <div class="admin-stats">
         <div class="stat-card">Total<div id="stat-total" class="stats-cards">0</div></div>
         <div class="stat-card">En attente<div id="stat-attente" class="stats-cards">0</div></div>
@@ -26,29 +28,81 @@
         <div class="stat-card">Résolus<div id="stat-resolus" class="stats-cards">0</div></div>
         <div class="stat-card">Urgents<div id="stat-urgents" class="stats-cards">0</div></div>
     </div>
+
     <div class="container">
         <div class="main-content">
-            <h1 class="card-title" style="margin-bottom:2rem">Tableau de bord analytique</h1>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-bottom:3rem">
-                <div class="card" style="padding:1.5rem;text-align:center;border-left:4px solid var(--primary-color)">
-                    <h3 style="color:var(--primary-color);font-size:2.5rem;margin-bottom:0.5rem" id="card-total">0</h3>
-                    <p style="color:var(--text-secondary);font-weight:600">Tickets totaux</p>
+            <!-- Taux calculés -->
+            <div class="rate-cards" style="margin-bottom:2rem">
+                <div class="rate-card">
+                    <div class="rate-value" id="taux-resolution">0%</div>
+                    <div class="rate-label">Taux de résolution</div>
                 </div>
-                <div class="card" style="padding:1.5rem;text-align:center;border-left:4px solid #059669">
-                    <h3 style="color:#059669;font-size:2.5rem;margin-bottom:0.5rem" id="card-resolus">0</h3>
-                    <p style="color:var(--text-secondary);font-weight:600">Tickets résolus</p>
+                <div class="rate-card" style="border-top-color:#ea580c">
+                    <div class="rate-value" style="color:#ea580c" id="taux-cours">0%</div>
+                    <div class="rate-label">En cours de traitement</div>
                 </div>
-                <div class="card" style="padding:1.5rem;text-align:center;border-left:4px solid #ea580c">
-                    <h3 style="color:#ea580c;font-size:2.5rem;margin-bottom:0.5rem" id="card-cours">0</h3>
-                    <p style="color:var(--text-secondary);font-weight:600">En cours de traitement</p>
+                <div class="rate-card" style="border-top-color:#dc2626">
+                    <div class="rate-value" style="color:#dc2626" id="taux-urgents">0%</div>
+                    <div class="rate-label">Tickets urgents</div>
                 </div>
-                <div class="card" style="padding:1.5rem;text-align:center;border-left:4px solid #dc2626">
-                    <h3 style="color:#dc2626;font-size:2.5rem;margin-bottom:0.5rem" id="card-urgents">0</h3>
-                    <p style="color:var(--text-secondary);font-weight:600">Tickets urgents</p>
+            </div>
+
+            <!-- Graphiques -->
+            <div class="charts-grid">
+
+                <!-- Graphique statut (donut) -->
+                <div class="chart-card">
+                    <h3>Répartition par statut</h3>
+                    <div class="donut-wrapper">
+                        <svg class="donut-svg" viewBox="0 0 160 160" id="donut-svg">
+                            <circle cx="80" cy="80" r="60" fill="none" stroke="#e5e7eb" stroke-width="22"/>
+                            <!-- Les segments seront ajoutés par JS -->
+                            <text x="80" y="75" text-anchor="middle" class="progress-ring-text" id="donut-center-val">0</text>
+                            <text x="80" y="92" text-anchor="middle" class="progress-ring-sub">TOTAL</text>
+                        </svg>
+                        <div class="donut-legend">
+                            <div class="legend-item"><div class="legend-dot" style="background:#f1f5f9;border:1px solid #cbd5e1"></div><span>En attente (<span id="leg-attente">0</span>)</span></div>
+                            <div class="legend-item"><div class="legend-dot" style="background:#6594b1"></div><span>En cours (<span id="leg-cours">0</span>)</span></div>
+                            <div class="legend-item"><div class="legend-dot" style="background:#A2CB8B"></div><span>Résolus (<span id="leg-resolus">0</span>)</span></div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Graphique priorité (barres) -->
+                <div class="chart-card">
+                    <h3>Répartition par priorité</h3>
+                    <div class="bar-chart-container" id="priority-bars">
+                        <div class="bar-row">
+                            <div class="bar-label">Urgente</div>
+                            <div class="bar-track"><div class="bar-fill" id="bar-urgente" style="width:0%;background:#d97d55"><span id="val-urgente">0</span></div></div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-label">Haute</div>
+                            <div class="bar-track"><div class="bar-fill" id="bar-haute" style="width:0%;background:#ea7b7b"><span id="val-haute">0</span></div></div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-label">Moyenne</div>
+                            <div class="bar-track"><div class="bar-fill" id="bar-moyenne" style="width:0%;background:#ffa4a4"><span id="val-moyenne">0</span></div></div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-label">OK</div>
+                            <div class="bar-track"><div class="bar-fill" id="bar-ok" style="width:0%;background:#b6ceb4"><span id="val-ok">0</span></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Graphique catégorie (barres horizontales) -->
+                <div class="chart-card" style="grid-column: 1 / -1">
+                    <h3>Tickets par catégorie</h3>
+                    <div class="bar-chart-container" id="category-bars">
+                        <!-- généré dynamiquement -->
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
     <script>checkAuth(['admin']);</script>
 </body>
