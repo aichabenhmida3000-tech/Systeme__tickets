@@ -277,3 +277,129 @@ body {
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
 }
+/* ===== Stats page ===== */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+.chart-card {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+}
+.chart-card h3 {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+canvas { width: 100% !important; }
+.bar-chart-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.bar-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.bar-label {
+    width: 110px;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    text-align: right;
+    flex-shrink: 0;
+}
+.bar-track {
+    flex: 1;
+    background: #e5e7eb;
+    border-radius: 20px;
+    height: 22px;
+    overflow: hidden;
+}
+.bar-fill {
+    height: 100%;
+    border-radius: 20px;
+    transition: width 1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+}
+.bar-fill span {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+}
+.donut-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.donut-svg {
+    width: 160px;
+    height: 160px;
+    flex-shrink: 0;
+}
+.donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+.progress-ring-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    fill: var(--text-primary);
+}
+.progress-ring-sub {
+    font-size: 0.6rem;
+    fill: var(--text-secondary);
+}
+.rate-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.rate-card {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 1.2rem;
+    text-align: center;
+    border-top: 3px solid var(--primary-color);
+}
+.rate-card .rate-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+.rate-card .rate-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+@media (max-width: 768px) {
+    .charts-grid { grid-template-columns: 1fr; }
+    .rate-cards { grid-template-columns: 1fr 1fr; }
+}
