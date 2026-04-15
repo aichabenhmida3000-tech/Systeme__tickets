@@ -188,9 +188,7 @@ document.addEventListener('DOMContentLoaded', function(){
         document.querySelectorAll('.admin-only').forEach(function(l){ l.style.display = 'inline-block'; });
     loadTickets();
     loadDetailedStats();});
-/* ===== Stats page ===== */
 var catColors = ['#3769A6','#6594b1','#A2CB8B','#d97d55','#ea7b7b'];
-
 function drawDonut(attente, cours, resolus) {
     var total = attente + cours + resolus;
     if(total === 0) return;
@@ -199,8 +197,7 @@ function drawDonut(attente, cours, resolus) {
     var data = [
         { val: attente, color: '#cbd5e1' },
         { val: cours,   color: '#6594b1' },
-        { val: resolus, color: '#A2CB8B' }
-    ];
+        { val: resolus, color: '#A2CB8B' }];
     var svg = document.getElementById('donut-svg');
     if(!svg) return;
     var old = svg.querySelectorAll('.seg');
@@ -222,18 +219,14 @@ function drawDonut(attente, cours, resolus) {
         circle.setAttribute('stroke-dashoffset', -offset * circ);
         circle.setAttribute('transform', 'rotate(-90 80 80)');
         svg.insertBefore(circle, svg.querySelector('text'));
-        offset += pct;
-    }
-    document.getElementById('donut-center-val').textContent = total;
-}
-
+        offset += pct;}
+    document.getElementById('donut-center-val').textContent = total;}
 function drawPriorityBars(s) {
     var vals = {
         urgente: parseInt(s.urgente)||0,
         haute:   parseInt(s.haute)||0,
         moyenne: parseInt(s.moyenne)||0,
-        ok:      parseInt(s.ok)||0
-    };
+        ok:      parseInt(s.ok)||0};
     var max = Math.max(vals.urgente, vals.haute, vals.moyenne, vals.ok, 1);
     var keys = ['urgente','haute','moyenne','ok'];
     for(var i = 0; i < keys.length; i++) {
@@ -247,11 +240,7 @@ function drawPriorityBars(s) {
                     b.style.width = p + '%';
                     el.textContent = v;
                 }, 200);
-            })(bar, pct, vals[k], valEl);
-        }
-    }
-}
-
+            })(bar, pct, vals[k], valEl);}}}
 function drawCategoryBars(categories) {
     var container = document.getElementById('category-bars');
     if(!container) return;
@@ -259,8 +248,7 @@ function drawCategoryBars(categories) {
     var keys = Object.keys(categories);
     var max = 1;
     for(var i = 0; i < keys.length; i++) {
-        if(parseInt(categories[keys[i]]) > max) max = parseInt(categories[keys[i]]);
-    }
+        if(parseInt(categories[keys[i]]) > max) max = parseInt(categories[keys[i]]);}
     for(var i = 0; i < keys.length; i++) {
         var k = keys[i];
         var v = parseInt(categories[k]) || 0;
@@ -272,16 +260,12 @@ function drawCategoryBars(categories) {
             '<div class="bar-label">' + k + '</div>' +
             '<div class="bar-track"><div class="bar-fill" style="width:0%;background:' + color + '" data-pct="' + pct + '">' +
             '<span>' + v + '</span></div></div>';
-        container.appendChild(row);
-    }
+        container.appendChild(row);}
     setTimeout(function() {
         var fills = container.querySelectorAll('.bar-fill');
         for(var i = 0; i < fills.length; i++) {
-            fills[i].style.width = fills[i].getAttribute('data-pct') + '%';
-        }
-    }, 300);
-}
-
+            fills[i].style.width = fills[i].getAttribute('data-pct') + '%';}
+    }, 300);}
 function loadStats() {
     var req = new XMLHttpRequest();
     req.open('GET', 'api.php?action=stats', true);
@@ -289,29 +273,21 @@ function loadStats() {
         if(this.readyState == 4 && this.status == 200) {
             var s = JSON.parse(this.responseText);
             var total = parseInt(s.total) || 0;
-
-            // Top stat cards
             var ids = {
                 'stat-total': total,
                 'stat-attente': parseInt(s.en_attente)||0,
                 'stat-cours': parseInt(s.en_cours)||0,
                 'stat-resolus': parseInt(s.resolus)||0,
-                'stat-urgents': parseInt(s.urgents)||0
-            };
+                'stat-urgents': parseInt(s.urgents)||0};
             for(var id in ids) {
                 var el = document.getElementById(id);
-                if(el) el.innerHTML = ids[id];
-            }
-
-            // Donut legend
+                if(el) el.innerHTML = ids[id];}
             var legAttente = document.getElementById('leg-attente');
             var legCours   = document.getElementById('leg-cours');
             var legResolus = document.getElementById('leg-resolus');
             if(legAttente) legAttente.textContent = parseInt(s.en_attente)||0;
             if(legCours)   legCours.textContent   = parseInt(s.en_cours)||0;
             if(legResolus) legResolus.textContent = parseInt(s.resolus)||0;
-
-            // Rate cards
             var txRes  = total > 0 ? Math.round((parseInt(s.resolus)/total)*100) : 0;
             var txCours= total > 0 ? Math.round((parseInt(s.en_cours)/total)*100) : 0;
             var txUrg  = total > 0 ? Math.round((parseInt(s.urgents)/total)*100) : 0;
@@ -321,16 +297,9 @@ function loadStats() {
             if(tauxRes) tauxRes.textContent = txRes + '%';
             if(tauxCours) tauxCours.textContent = txCours + '%';
             if(tauxUrgents) tauxUrgents.textContent = txUrg + '%';
-
-            // Charts
             drawDonut(parseInt(s.en_attente)||0, parseInt(s.en_cours)||0, parseInt(s.resolus)||0);
             drawPriorityBars(s);
-            if(s.categories) drawCategoryBars(s.categories);
-        }
-    };
-    req.send();
-}
-
+            if(s.categories) drawCategoryBars(s.categories);}};
+    req.send();}
 document.addEventListener('DOMContentLoaded', function() {
-    if(document.getElementById('donut-svg')) loadStats();
-});
+    if(document.getElementById('donut-svg')) loadStats();});
